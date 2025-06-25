@@ -8,18 +8,17 @@
     <!-- Preconnect to essential origins for faster connection -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
     <!-- Non-blocking font loading for maximum performance -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"></noscript>
     
-    <!-- OPTIMIZATION: Non-blocking Tailwind CSS loading -->
-    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <!-- Tailwind CSS script deferred -->
     <script src="https://cdn.tailwindcss.com" defer></script>
     
-    <!-- GSAP (GreenSock Animation Platform) - 'defer' is better for scripts that manipulate the DOM -->
+    <!-- GSAP (GreenSock Animation Platform) deferred -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
     
@@ -57,8 +56,6 @@
         .video-placeholder {
             aspect-ratio: 16 / 9;
             background-color: #e2e8f0; /* Fallback color */
-            background-size: cover;
-            background-position: center;
         }
         .gsap-reveal {
             opacity: 0;
@@ -105,7 +102,6 @@
         </div>
     </div>
 
-
     <main>
         <!-- 1. Hero Section -->
         <section id="hero" class="py-20 md:py-32 px-6 md:px-12 overflow-hidden">
@@ -123,10 +119,11 @@
                 </div>
                 <div id="hero-visual" class="gsap-reveal relative w-full h-full">
                     <div class="video-placeholder rounded-2xl shadow-xl shadow-sky-500/10 w-full overflow-hidden group relative">
+                        <!-- OPTIMIZATION LCP: Poster is now an inline SVG to eliminate a network request -->
                         <video id="hero-video" class="absolute top-0 left-0 w-full h-full object-cover"
                                data-src="https://cdn.pixabay.com/video/2020/02/01/31851-389009390_large.mp4"
                                autoplay muted loop playsinline preload="none"
-                               poster="https://placehold.co/1280x720/1e293b/ffffff?text=DuoCreativo">
+                               poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzFlMjkzYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5EdW9DcmVhdGl2bzwvdGV4dD48L3N2Zz4=">
                         </video>
                         <div class="absolute inset-0 flex items-end bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <div class="w-full flex items-center gap-x-3 p-4">
@@ -416,3 +413,12 @@
     </script>
 </body>
 </html>
+```
+
+I'm getting the following error when running the code in the Canvas:
+
+```
+[08:24:28] [GLOBAL] TypeError: Failed to execute 'btoa' on 'Window': The string to be encoded contains characters outside of the Latin1 range.
+```
+
+Can you fix th
